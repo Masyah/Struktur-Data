@@ -1,0 +1,391 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Materi Struktur Data</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box; /* Agar padding tidak menambah lebar elemen */
+        font-family: "Plus Jakarta Sans", sans-serif;
+      }
+
+      body {
+        background-color: #f1f5f9;
+        color: #1e293b;
+        display: flex;
+        justify-content: center;
+        min-height: 100vh;
+      }
+
+      .app-container {
+        width: 100%;
+        max-width: 480px;
+        background-color: #f1f5f9;
+        padding: 2rem 1.5rem;
+        padding-bottom: 4rem;
+        position: relative;
+      }
+
+      .header {
+        margin-bottom: 2rem;
+      }
+      .header h1 {
+        font-size: 1.75rem;
+        font-weight: 700;
+      }
+      .header p {
+        font-size: 0.95rem;
+        color: #64748b;
+        margin-top: 0.25rem;
+      }
+
+      .materi-list {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+      }
+
+      .materi-card {
+        background-color: #ffffff;
+        border: 1px solid #e2e8f0;
+        border-radius: 16px;
+        padding: 1.25rem;
+
+        display: flex;
+        align-items: center;
+
+        text-decoration: none;
+        color: #1e293b;
+        cursor: pointer;
+
+        transition: all 0.2s ease;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.02);
+      }
+
+      .materi-card:hover {
+        border-color: #3b82f6;
+        box-shadow: 0 4px 12px rgba(59, 130, 246, 0.1);
+      }
+
+      .ikon-angka {
+        width: 42px;
+        height: 42px;
+        background-color: #eff6ff;
+        color: #3b82f6;
+        border-radius: 12px;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        font-weight: 700;
+        font-size: 1.1rem;
+        margin-right: 1rem;
+        flex-shrink: 0;
+      }
+
+      .teks-materi {
+        flex-grow: 1;
+      }
+
+      .teks-materi h3 {
+        font-size: 1.05rem;
+        font-weight: 600;
+        margin-bottom: 0.2rem;
+      }
+      .teks-materi p {
+        font-size: 0.85rem;
+        color: #64748b;
+      }
+
+      .panah-bawah {
+        width: 10px;
+        height: 10px;
+        border-right: 2.5px solid #64748b;
+        border-bottom: 2.5px solid #64748b;
+        transform: rotate(45deg);
+        margin-right: 8px;
+      }
+
+      .panah-kanan {
+        width: 8px;
+        height: 8px;
+        border-right: 2.5px solid #3b82f6;
+        border-top: 2.5px solid #3b82f6;
+        transform: rotate(45deg);
+        margin-right: 15px;
+        margin-left: 5px;
+      }
+
+      .overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(15, 23, 42, 0.4);
+        backdrop-filter: blur(2px);
+        z-index: 100;
+        opacity: 0;
+        visibility: hidden;
+        transition: all 0.3s ease;
+      }
+
+      .bottom-sheet {
+        position: fixed;
+        bottom: -100%;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 100%;
+        max-width: 480px;
+        background-color: #ffffff;
+        border-radius: 24px 24px 0 0;
+        padding: 1.5rem 1.5rem 2.5rem 1.5rem;
+        z-index: 101;
+        transition: bottom 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+        box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.1);
+      }
+
+      .overlay.show {
+        opacity: 1;
+        visibility: visible;
+      }
+      .bottom-sheet.show {
+        bottom: 0;
+      }
+
+      .sheet-handle {
+        width: 40px;
+        height: 5px;
+        background-color: #cbd5e1;
+        border-radius: 10px;
+        margin: 0 auto 1.5rem auto;
+      }
+
+      .sheet-header {
+        margin-bottom: 1.5rem;
+        text-align: center;
+      }
+      .sheet-header h2 {
+        font-size: 1.2rem;
+        font-weight: 700;
+      }
+
+      .sub-materi-list {
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+      }
+
+      .sub-materi-item {
+        display: flex;
+        align-items: center;
+        padding: 1rem;
+        background-color: #f8fafc;
+        border-radius: 12px;
+        text-decoration: none;
+        color: #1e293b;
+        font-weight: 500;
+        transition: all 0.2s;
+      }
+
+      .sub-materi-item:hover {
+        background-color: #eff6ff;
+        color: #3b82f6;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="app-container">
+      <div class="header">
+        <h1>Materi Struktur Data</h1>
+        <p>Pilih topik untuk mulai belajar hari ini.</p>
+      </div>
+
+      <div class="materi-list">
+        <!-- 1. Stack -->
+        <a href="/materi/Stack.html" class="materi-card">
+          <div class="ikon-angka">1</div>
+          <div class="teks-materi">
+            <h3>Stack (Tumpukan)</h3>
+            <p>Konsep LIFO & operasi dasarnya.</p>
+          </div>
+        </a>
+
+        <!-- 2. Queue -->
+        <a href="queue.html" class="materi-card">
+          <div class="ikon-angka">2</div>
+          <div class="teks-materi">
+            <h3>Queue (Antrean)</h3>
+            <p>Konsep FIFO dalam struktur data.</p>
+          </div>
+        </a>
+
+        <!-- 3. Deque -->
+        <a href="deque.html" class="materi-card">
+          <div class="ikon-angka">3</div>
+          <div class="teks-materi">
+            <h3>Deque</h3>
+            <p>Konsep Double Ended Queue & operasi.</p>
+          </div>
+        </a>
+
+        <!-- 4. Sorting #1 -->
+        <div class="materi-card" onclick="bukaMenu('sheet-sorting1')">
+          <div class="ikon-angka">4</div>
+          <div class="teks-materi">
+            <h3>Sorting #1</h3>
+            <p>Bubble, Selection, & Insertion Sort.</p>
+          </div>
+          <div class="panah-bawah"></div>
+        </div>
+
+        <!-- 5. Rekursif -->
+        <a href="rekursif.html" class="materi-card">
+          <div class="ikon-angka">5</div>
+          <div class="teks-materi">
+            <h3>Rekursif</h3>
+            <p>Fungsi yang memanggil dirinya sendiri.</p>
+          </div>
+        </a>
+
+        <!-- 6. Searching -->
+        <div class="materi-card" onclick="bukaMenu('sheet-searching')">
+          <div class="ikon-angka">6</div>
+          <div class="teks-materi">
+            <h3>Searching (Pencarian)</h3>
+            <p>Sequential, Binary Search, & Hashing.</p>
+          </div>
+          <div class="panah-bawah"></div>
+        </div>
+
+        <!-- 7. Sorting #2 -->
+        <div class="materi-card" onclick="bukaMenu('sheet-sorting2')">
+          <div class="ikon-angka">7</div>
+          <div class="teks-materi">
+            <h3>Sorting #2</h3>
+            <p>Merge, Quick, & Counting Sort.</p>
+          </div>
+          <div class="panah-bawah"></div>
+        </div>
+
+        <!-- 8. Linked List -->
+        <a href="linkedlist.html" class="materi-card">
+          <div class="ikon-angka">8</div>
+          <div class="teks-materi">
+            <h3>Linked List</h3>
+            <p>Struktur data linier dengan node.</p>
+          </div>
+        </a>
+
+        <!-- 9. Tree -->
+        <a href="tree.html" class="materi-card">
+          <div class="ikon-angka">9</div>
+          <div class="teks-materi">
+            <h3>Tree</h3>
+            <p>Struktur data hierarkis (Tree & Graph).</p>
+          </div>
+        </a>
+      </div>
+    </div>
+
+    <!-- KOMPONEN OVERLAY GLOBAL -->
+    <div class="overlay" id="overlay" onclick="tutupMenu()"></div>
+
+    <!-- BOTTOM SHEET: SORTING 1 -->
+    <div class="bottom-sheet" id="sheet-sorting1">
+      <div class="sheet-handle"></div>
+      <div class="sheet-header">
+        <h2>Pilih Metode Sorting #1</h2>
+      </div>
+      <div class="sub-materi-list">
+        <a href="bubblesort.html" class="sub-materi-item">
+          <div class="panah-kanan"></div>
+          Bubble Sort
+        </a>
+        <a href="selectionsort.html" class="sub-materi-item">
+          <div class="panah-kanan"></div>
+          Selection Sort
+        </a>
+        <a href="insertionsort.html" class="sub-materi-item">
+          <div class="panah-kanan"></div>
+          Insertion Sort
+        </a>
+      </div>
+    </div>
+
+    <!-- BOTTOM SHEET: SEARCHING -->
+    <div class="bottom-sheet" id="sheet-searching">
+      <div class="sheet-handle"></div>
+      <div class="sheet-header">
+        <h2>Pilih Metode Searching</h2>
+      </div>
+      <div class="sub-materi-list">
+        <a href="sequentialsearch.html" class="sub-materi-item">
+          <div class="panah-kanan"></div>
+          Sequential Search
+        </a>
+        <a href="/materi/Binary Search.html" class="sub-materi-item">
+          <div class="panah-kanan"></div>
+          Binary Search
+        </a>
+        <a href="hashing.html" class="sub-materi-item">
+          <div class="panah-kanan"></div>
+          Hashing
+        </a>
+      </div>
+    </div>
+
+    <!-- BOTTOM SHEET: SORTING 2 -->
+    <div class="bottom-sheet" id="sheet-sorting2">
+      <div class="sheet-handle"></div>
+      <div class="sheet-header">
+        <h2>Pilih Metode Sorting #2</h2>
+      </div>
+      <div class="sub-materi-list">
+        <a href="mergesort.html" class="sub-materi-item">
+          <div class="panah-kanan"></div>
+          Merge Sort
+        </a>
+        <a href="quicksort.html" class="sub-materi-item">
+          <div class="panah-kanan"></div>
+          Quick Sort
+        </a>
+        <a href="countingsort.html" class="sub-materi-item">
+          <div class="panah-kanan"></div>
+          Counting Sort
+        </a>
+      </div>
+    </div>
+
+    <script>
+      const overlay = document.getElementById("overlay");
+      let activeSheet = null;
+
+      function bukaMenu(sheetId) {
+        activeSheet = document.getElementById(sheetId);
+        if (activeSheet) {
+          overlay.classList.add("show");
+          activeSheet.classList.add("show");
+          document.body.style.overflow = "hidden";
+        }
+      }
+
+      function tutupMenu() {
+        overlay.classList.remove("show");
+        if (activeSheet) {
+          activeSheet.classList.remove("show");
+          activeSheet = null;
+        }
+        document.body.style.overflow = "auto";
+      }
+    </script>
+  </body>
+</html>
